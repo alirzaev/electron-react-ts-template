@@ -1,4 +1,5 @@
-import { app, BrowserWindow } from 'electron';
+import path from 'path';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -11,6 +12,10 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(app.getAppPath(), 'src', 'preload.js')
+    }
   });
 
   // and load the index.html of the app.
@@ -44,3 +49,7 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+ipcMain.on('message-box', (event, args) => {
+  event.returnValue = dialog.showMessageBoxSync(args);
+});

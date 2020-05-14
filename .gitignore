@@ -87,3 +87,11 @@ typings/
 
 # Electron-Forge
 out/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
